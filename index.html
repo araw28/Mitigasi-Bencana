@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Prediksi Dini Bencana Banjir</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-water"></i>
+                <h1>Sistem Prediksi Banjir</h1>
+            </div>
+            <nav class="nav">
+                <a href="#dashboard" class="nav-link">Dashboard</a>
+                <a href="#prediction" class="nav-link">Prediksi</a>
+                <a href="#data" class="nav-link">Data Historis</a>
+                <a href="#about" class="nav-link">Tentang</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h2>Prediksi Dini Bencana Banjir</h2>
+                <p>Sistem inteligensi untuk memprediksi kemungkinan banjir berdasarkan data cuaca dan lingkungan</p>
+                <button class="cta-button" onclick="scrollToSection('prediction')">
+                    Mulai Prediksi <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+            <div class="hero-image">
+                <i class="fas fa-flood"></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Section -->
+    <section id="dashboard" class="dashboard">
+        <div class="container">
+            <h2 class="section-title">Dashboard Monitoring</h2>
+            
+            <!-- Alert Status -->
+            <div class="alert-banner" id="alertBanner">
+                <div class="alert-content">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span id="alertText">Status: Normal</span>
+                </div>
+                <div class="alert-level" id="alertLevel">AMAN</div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-cloud-rain"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="rainfallValue">0 mm</h3>
+                        <p>Curah Hujan</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-ruler-vertical"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="waterLevelValue">0 m</h3>
+                        <p>Tinggi Air</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-tint"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="humidityValue">0%</h3>
+                        <p>Kelembaban</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-wind"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="riskLevelValue">Rendah</h3>
+                        <p>Level Risiko</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chart Container -->
+            <div class="chart-container">
+                <canvas id="floodChart"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <!-- Prediction Section -->
+    <section id="prediction" class="prediction">
+        <div class="container">
+            <h2 class="section-title">Prediksi Banjir</h2>
+            
+            <div class="prediction-container">
+                <div class="input-form">
+                    <h3>Input Data Sensor</h3>
+                    
+                    <div class="form-group">
+                        <label for="kecamatan">Kecamatan</label>
+                        <select id="kecamatan" class="form-control">
+                            <option value="1">Kecamatan 1</option>
+                            <option value="2">Kecamatan 2</option>
+                            <option value="3">Kecamatan 3</option>
+                            <option value="4">Kecamatan 4</option>
+                            <option value="5">Kecamatan 5</option>
+                        </select>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="rainfall">Curah Hujan (mm)</label>
+                            <input type="number" id="rainfall" class="form-control" step="0.1" min="0" max="500">
+                            <div class="input-hint">Normal: 0-100mm, Tinggi: 100-300mm, Ekstrem: >300mm</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="waterLevel">Tinggi Air (m)</label>
+                            <input type="number" id="waterLevel" class="form-control" step="0.1" min="0" max="10">
+                            <div class="input-hint">Normal: 0-2m, Waspada: 2-4m, Bahaya: >4m</div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="humidity">Kelembaban (%)</label>
+                            <input type="number" id="humidity" class="form-control" min="0" max="100">
+                            <div class="input-hint">Rendah: 0-40%, Normal: 40-80%, Tinggi: 80-100%</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="rainDays">Hari Hujan</label>
+                            <input type="number" id="rainDays" class="form-control" min="0" max="31">
+                            <div class="input-hint">Jumlah hari hujan dalam sebulan</div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="temperature">Suhu Rata-rata (°C)</label>
+                            <input type="number" id="temperature" class="form-control" step="0.1" min="10" max="40">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="sunlight">Jam Sinar Matahari</label>
+                            <input type="number" id="sunlight" class="form-control" step="0.1" min="0" max="12">
+                        </div>
+                    </div>
+
+                    <button class="predict-btn" onclick="predictFlood()">
+                        <i class="fas fa-calculator"></i>
+                        Prediksi Banjir
+                    </button>
+
+                    <button class="simulate-btn" onclick="simulateSensorData()">
+                        <i class="fas fa-bolt"></i>
+                        Simulasi Data Sensor
+                    </button>
+                </div>
+
+                <div class="prediction-result">
+                    <h3>Hasil Prediksi</h3>
+                    
+                    <div class="result-card" id="resultCard">
+                        <div class="result-header">
+                            <i class="fas fa-info-circle"></i>
+                            <span>Masukkan data untuk prediksi</span>
+                        </div>
+                        
+                        <div class="result-details" id="resultDetails" style="display: none;">
+                            <div class="risk-level" id="riskLevel">
+                                <span class="risk-text">AMAN</span>
+                                <span class="risk-emoji">🟢</span>
+                            </div>
+                            
+                            <div class="probability">
+                                <div class="prob-bar">
+                                    <div class="prob-fill" id="probFill"></div>
+                                </div>
+                                <span class="prob-text" id="probText">0%</span>
+                            </div>
+                            
+                            <div class="prediction-details">
+                                <div class="detail-item">
+                                    <span class="detail-label">Kategori Banjir:</span>
+                                    <span class="detail-value" id="categoryValue">-</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Intensitas Prediksi:</span>
+                                    <span class="detail-value" id="intensityValue">-</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Rekomendasi:</span>
+                                    <span class="detail-value" id="recommendationValue">-</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Alert History -->
+                    <div class="alert-history">
+                        <h4>Riwayat Peringatan</h4>
+                        <div class="history-list" id="historyList">
+                            <!-- Alert items will be added here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Data Section -->
+    <section id="data" class="data-section">
+        <div class="container">
+            <h2 class="section-title">Data Historis Banjir</h2>
+            
+            <div class="data-controls">
+                <button class="filter-btn active" onclick="filterData('all')">Semua</button>
+                <button class="filter-btn" onclick="filterData('high')">Risiko Tinggi</button>
+                <button class="filter-btn" onclick="filterData('medium')">Risiko Sedang</button>
+                <button class="filter-btn" onclick="filterData('low')">Risiko Rendah</button>
+            </div>
+
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Kecamatan</th>
+                            <th>Tanggal</th>
+                            <th>Curah Hujan</th>
+                            <th>Tinggi Air</th>
+                            <th>Kelembaban</th>
+                            <th>Status</th>
+                            <th>Prediksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dataTableBody">
+                        <!-- Data will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title">Tentang Sistem</h2>
+            
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>Sistem Prediksi Dini Bencana Banjir</h3>
+                    <p>
+                        Sistem ini dikembangkan untuk memprediksi kemungkinan terjadinya banjir 
+                        berdasarkan data cuaca dan parameter lingkungan secara real-time. 
+                        Dengan menggunakan algoritma machine learning, sistem dapat memberikan 
+                        peringatan dini kepada masyarakat dan pihak berwenang.
+                    </p>
+                    
+                    <div class="features">
+                        <div class="feature">
+                            <i class="fas fa-brain"></i>
+                            <h4>AI Prediction</h4>
+                            <p>Menggunakan algoritma cerdas untuk prediksi akurat</p>
+                        </div>
+                        
+                        <div class="feature">
+                            <i class="fas fa-bell"></i>
+                            <h4>Real-time Alert</h4>
+                            <p>Peringatan dini secara real-time</p>
+                        </div>
+                        
+                        <div class="feature">
+                            <i class="fas fa-chart-line"></i>
+                            <h4>Data Analysis</h4>
+                            <p>Analisis data historis dan tren</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Sistem Prediksi Dini Bencana Banjir. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="data/sample-data.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
