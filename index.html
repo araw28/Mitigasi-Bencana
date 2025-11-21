@@ -28,3 +28,74 @@
         </div>
       </div>
     </header>
+    <section class="hero">
+        <div class="hero-content">
+            <h2>Sistem Informasi Bencana Kota Palu</h2>
+            <p>Memantau dan menganalisis data bencana banjir, tanah longsor, dan tsunami di Kota Palu</p>
+        </div>
+    </section>
+
+    <section id="dashboard" class="dashboard">
+        <div class="container">
+            <h2>Dashboard Overview</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">📊</div>
+                    <div class="stat-info">
+                        <h3>Total Data</h3>
+                        <span id="totalData">0</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🌧️</div>
+                    <div class="stat-info">
+                        <h3>Rata-rata Curah Hujan</h3>
+                        <span id="avgRainfall">0 mm</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">⚠️</div>
+                    <div class="stat-info">
+                        <h3>Kejadian Bencana</h3>
+                        <span id="totalDisaster">0</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🔴</div>
+                    <div class="stat-info">
+                        <h3>Banjir Berat</h3>
+                        <span id="heavyFlood">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Distribusi Jenis Bencana</div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="disasterTypeChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Trend Curah Hujan</div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="rainfallChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Korelasi Parameter</div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="correlationChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
