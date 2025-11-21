@@ -137,3 +137,68 @@
             </div>
         </div>
     </section>
+    
+    <section id="analisis" class="dashboard">
+        <div class="container">
+            <h2>Analisis Data</h2>
+            <div class="dashboard-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Bulan dengan Bencana Terbanyak</div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="monthlyDisasterChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Distribusi Curah Hujan per Status</div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="rainfallByStatusChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Peta Sebaran Bencana</div>
+                </div>
+                <div class="map-container" id="disasterMap"></div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="tentang">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Tentang Sistem</h3>
+                    <p>Sistem informasi bencana Kota Palu untuk memantau dan menganalisis data bencana alam seperti banjir, tanah longsor, dan tsunami.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Kontak</h3>
+                    <p>Email: info@bencanapalu.go.id</p>
+                    <p>Telepon: (0451) 123456</p>
+                    <p>Alamat: Jl. Sudirman No. 10, Palu</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Links</h3>
+                    <p><a href="#dashboard">Dashboard</a></p>
+                    <p><a href="#data">Data Bencana</a></p>
+                    <p><a href="#analisis">Analisis</a></p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2024 Sistem Informasi Bencana Kota Palu. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
