@@ -99,3 +99,41 @@
             </div>
         </div>
     </section>
+
+    <section id="data" class="dashboard">
+        <div class="container">
+            <h2>Data Historis Bencana</h2>
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Dataset Bencana Kota Palu</div>
+                    <div class="filters">
+                        <select id="yearFilter" class="form-control">
+                            <option value="">Semua Tahun</option>
+                        </select>
+                        <select id="disasterFilter" class="form-control">
+                            <option value="">Semua Status</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Tanggal</th>
+                                <th>Curah Hujan (mm)</th>
+                                <th>Kelembapan (%)</th>
+                                <th>Kecepatan Angin (km/jam)</th>
+                                <th>Suhu Rata-rata (°C)</th>
+                                <th>Tinggi Gelombang (m)</th>
+                                <th>Aktivitas Gempa</th>
+                                <th>Status Bencana</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dataTable">
+                            <!-- Data akan diisi oleh JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
