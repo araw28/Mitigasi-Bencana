@@ -36,3 +36,20 @@ const csvData = `Tanggal,Curah_Hujan_mm,Kelembapan_persen,Kecepatan_Angin_km_jam
 2025-12-07,15,74,17,30.8,0.7,2.5,Aman`;
 
 let disasterData = [];
+
+// Parse CSV data
+function parseCSVData() {
+    const parsed = Papa.parse(csvData, {
+        header: true,
+        dynamicTyping: true,
+        skipEmptyLines: true
+    });
+    
+    disasterData = parsed.data.map(row => ({
+        ...row,
+        Tahun: new Date(row.Tanggal).getFullYear(),
+        Bulan: new Date(row.Tanggal).getMonth() + 1
+    }));
+    
+    return disasterData;
+}
