@@ -91,3 +91,17 @@ function initializeFilters() {
     yearFilter.addEventListener('change', filterTable);
     disasterFilter.addEventListener('change', filterTable);
 }
+
+// Filter table data
+function filterTable() {
+    const yearFilter = document.getElementById('yearFilter').value;
+    const disasterFilter = document.getElementById('disasterFilter').value;
+    
+    const filteredData = disasterData.filter(row => {
+        const matchYear = !yearFilter || row.Tahun == yearFilter;
+        const matchDisaster = !disasterFilter || row.Status_Bencana === disasterFilter;
+        return matchYear && matchDisaster;
+    });
+    
+    populateDataTable(filteredData);
+}
