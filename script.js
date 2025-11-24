@@ -53,3 +53,15 @@ function parseCSVData() {
     
     return disasterData;
 }
+// Initialize statistics
+function initializeStats() {
+    const totalData = disasterData.length;
+    const avgRainfall = (disasterData.reduce((sum, row) => sum + row.Curah_Hujan_mm, 0) / totalData).toFixed(1);
+    const totalDisaster = disasterData.filter(row => row.Status_Bencana !== 'Aman').length;
+    const heavyFlood = disasterData.filter(row => row.Status_Bencana.includes('Berat')).length;
+    
+    document.getElementById('totalData').textContent = totalData;
+    document.getElementById('avgRainfall').textContent = `${avgRainfall} mm`;
+    document.getElementById('totalDisaster').textContent = totalDisaster;
+    document.getElementById('heavyFlood').textContent = heavyFlood;
+}
