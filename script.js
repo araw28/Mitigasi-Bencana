@@ -34,3 +34,5 @@ const csvData = `Tanggal,Curah_Hujan_mm,Kelembapan_persen,Kecepatan_Angin_km_jam
 2025-10-29,75,85,29,28.3,1.9,4.1,Banjir_Ringan
 2025-11-16,165,92,40,26.7,3.0,5.4,Banjir_Berat_Tsunami
 2025-12-07,15,74,17,30.8,0.7,2.5,Aman`;
+
+let disasterData = [];
