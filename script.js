@@ -135,3 +135,11 @@ function populateDataTable(data = disasterData) {
         tableBody.appendChild(tr);
     });
 }
+// Initialize charts
+function initializeCharts() {
+    createDisasterTypeChart();
+    createRainfallChart();
+    createCorrelationChart();
+    createMonthlyDisasterChart();
+    createRainfallByStatusChart();
+}
