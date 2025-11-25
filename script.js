@@ -105,3 +105,33 @@ function filterTable() {
     
     populateDataTable(filteredData);
 }
+// Populate data table
+function populateDataTable(data = disasterData) {
+    const tableBody = document.getElementById('dataTable');
+    tableBody.innerHTML = '';
+    
+    data.forEach(row => {
+        const tr = document.createElement('tr');
+        
+        // Determine status badge class
+        let statusClass = 'status-aman';
+        if (row.Status_Bencana.includes('Berat')) statusClass = 'status-berat';
+        else if (row.Status_Bencana.includes('Sedang')) statusClass = 'status-sedang';
+        else if (row.Status_Bencana.includes('Ringan')) statusClass = 'status-ringan';
+        else if (row.Status_Bencana.includes('Longsor')) statusClass = 'status-longsor';
+        else if (row.Status_Bencana.includes('Tsunami')) statusClass = 'status-tsunami';
+        
+        tr.innerHTML = `
+            <td>${row.Tanggal}</td>
+            <td>${row.Curah_Hujan_mm}</td>
+            <td>${row.Kelembapan_persen}</td>
+            <td>${row.Kecepatan_Angin_km_jam}</td>
+            <td>${row.Suhu_Rata2_C}</td>
+            <td>${row.Tinggi_Gelombang_m}</td>
+            <td>${row.Aktivitas_Gempa_skala}</td>
+            <td><span class="status-badge ${statusClass}">${row.Status_Bencana}</span></td>
+        `;
+        
+        tableBody.appendChild(tr);
+    });
+}
