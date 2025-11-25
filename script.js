@@ -246,3 +246,39 @@ function createCorrelationChart() {
         }
     });
 }
+// Chart 4: Bulan dengan Bencana Terbanyak
+function createMonthlyDisasterChart() {
+    const monthlyCounts = Array(12).fill(0);
+    disasterData.forEach(row => {
+        if (row.Status_Bencana !== 'Aman') {
+            monthlyCounts[row.Bulan - 1]++;
+        }
+    });
+    
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des'];
+    
+    const ctx = document.getElementById('monthlyDisasterChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: months,
+            datasets: [{
+                label: 'Jumlah Bencana',
+                data: monthlyCounts,
+                backgroundColor: 'rgba(231, 76, 60, 0.7)'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1
+                    }
+                }
+            }
+        }
+    });
+}
