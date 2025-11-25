@@ -282,3 +282,39 @@ function createMonthlyDisasterChart() {
         }
     });
 }
+
+// Chart 5: Distribusi Curah Hujan per Status
+function createRainfallByStatusChart() {
+    const statusGroups = {};
+    disasterData.forEach(row => {
+        if (!statusGroups[row.Status_Bencana]) {
+            statusGroups[row.Status_Bencana] = [];
+        }
+        statusGroups[row.Status_Bencana].push(row.Curah_Hujan_mm);
+    });
+    
+    const ctx = document.getElementById('rainfallByStatusChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'boxplot',
+        data: {
+            labels: Object.keys(statusGroups),
+            datasets: [{
+                label: 'Distribusi Curah Hujan',
+                data: Object.values(statusGroups).map(values => ({
+                    min: Math.min(...values),
+                    q1: calculatePercentile(values, 25),
+                    median: calculatePercentile(values, 50),
+                    q3: calculatePercentile(values, 75),
+                    max: Math.max(...values)
+                })),
+                backgroundColor: 'rgba(52, 152, 219, 0.2)',
+                borderColor: '#3498db',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false
+        }
+    });
+}
