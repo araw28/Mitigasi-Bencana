@@ -53,6 +53,7 @@ function parseCSVData() {
     
     return disasterData;
 }
+
 // Initialize statistics
 function initializeStats() {
     const totalData = disasterData.length;
@@ -105,6 +106,7 @@ function filterTable() {
     
     populateDataTable(filteredData);
 }
+
 // Populate data table
 function populateDataTable(data = disasterData) {
     const tableBody = document.getElementById('dataTable');
@@ -135,6 +137,7 @@ function populateDataTable(data = disasterData) {
         tableBody.appendChild(tr);
     });
 }
+
 // Initialize charts
 function initializeCharts() {
     createDisasterTypeChart();
@@ -211,6 +214,7 @@ function createRainfallChart() {
         }
     });
 }
+
 // Chart 3: Korelasi Parameter
 function createCorrelationChart() {
     const ctx = document.getElementById('correlationChart').getContext('2d');
@@ -246,6 +250,7 @@ function createCorrelationChart() {
         }
     });
 }
+
 // Chart 4: Bulan dengan Bencana Terbanyak
 function createMonthlyDisasterChart() {
     const monthlyCounts = Array(12).fill(0);
@@ -317,4 +322,373 @@ function createRainfallByStatusChart() {
             maintainAspectRatio: false
         }
     });
+}
+
+// Helper function for percentiles
+function calculatePercentile(arr, p) {
+    const sorted = [...arr].sort((a, b) => a - b);
+    const index = (p / 100) * (sorted.length - 1);
+    const lower = Math.floor(index);
+    const upper = lower + 1;
+    const weight = index - lower;
+    
+    if (upper >= sorted.length) return sorted[lower];
+    return sorted[lower] * (1 - weight) + sorted[upper] * weight;
+}
+
+// Initialize map
+function initializeMap() {
+    const map = L.map('disasterMap').setView([-0.9018, 119.8776], 12);
+    
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+    
+    // Add markers for disaster events
+    disasterData.filter(row => row.Status_Bencana !== 'Aman').forEach(row => {
+        const lat = -0.9018 + (Math.random() - 0.5) * 0.1;
+        const lng = 119.8776 + (Math.random() - 0.5) * 0.1;
+        
+        let color;
+        if (row.Status_Bencana.includes('Berat')) color = 'red';
+        else if (row.Status_Bencana.includes('Sedang')) color = 'orange';
+        else if (row.Status_Bencana.includes('Ringan')) color = 'yellow';
+        else if (row.Status_Bencana.includes('Longsor')) color = 'brown';
+        else if (row.Status_Bencana.includes('Tsunami')) color = 'blue';
+        else color = 'gray';
+        
+        L.circleMarker([lat, lng], {
+            color: color,
+            fillColor: color,
+            fillOpacity: 0.7,
+            radius: 8
+        }).addTo(map).bindPopup(`
+            <div style="text-align: center;">
+                <b>${row.Tanggal}</b><br>
+                <span style="color: ${color}; font-weight: bold;">${row.Status_Bencana}</span><br>
+                Curah Hujan: ${row.Curah_Hujan_mm} mm<br>
+                Kelembapan: ${row.Kelembapan_persen}%<br>
+                Gelombang: ${row.Tinggi_Gelombang_m} m
+            </div>
+        `);
+    });
+}
+
+// Smooth scrolling untuk navigasi
+document.querySelectorAll('nav a').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+        
+        if (targetElement) {
+            targetElement.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    });
+});
+
+// Initialize everything when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    parseCSVData();
+    initializeStats();
+    initializeFilters();
+    populateDataTable();
+    initializeCharts();
+    initializeMap();
+});
+
+// Sistem Prediksi Bencana
+function initializePredictionSystem() {
+    const predictBtn = document.getElementById('predictBtn');
+    predictBtn.addEventListener('click', runPrediction);
+    
+    // Auto-prediksi berdasarkan data terbaru
+    generateEarlyWarnings();
+}
+
+// Algorithm Prediksi Bencana
+function predictDisaster(rainfall, humidity, windSpeed, temperature, waveHeight, earthquake) {
+    let predictions = [];
+    
+    // Prediksi Banjir
+    const floodProbability = predictFlood(rainfall, humidity, windSpeed);
+    if (floodProbability > 30) {
+        predictions.push({
+            type: 'Banjir',
+            probability: floodProbability,
+            riskLevel: getRiskLevel(floodProbability),
+            factors: ['Curah hujan tinggi', 'Kelembapan tinggi']
+        });
+    }
+    
+    // Prediksi Tanah Longsor
+    const landslideProbability = predictLandslide(rainfall, humidity, earthquake);
+    if (landslideProbability > 30) {
+        predictions.push({
+            type: 'Tanah Longsor',
+            probability: landslideProbability,
+            riskLevel: getRiskLevel(landslideProbability),
+            factors: ['Curah hujan ekstrem', 'Aktivitas seismik']
+        });
+    }
+    
+    // Prediksi Tsunami
+    const tsunamiProbability = predictTsunami(earthquake, waveHeight);
+    if (tsunamiProbability > 30) {
+        predictions.push({
+            type: 'Tsunami',
+            probability: tsunamiProbability,
+            riskLevel: getRiskLevel(tsunamiProbability),
+            factors: ['Gempa kuat', 'Perubahan gelombang']
+        });
+    }
+    
+    return predictions.sort((a, b) => b.probability - a.probability);
+}
+
+// Sub-prediction algorithms
+function predictFlood(rainfall, humidity, windSpeed) {
+    let probability = 0;
+    
+    // Base probability from rainfall
+    if (rainfall > 200) probability += 80;
+    else if (rainfall > 150) probability += 60;
+    else if (rainfall > 100) probability += 40;
+    else if (rainfall > 50) probability += 20;
+    
+    // Humidity factor
+    if (humidity > 90) probability += 15;
+    else if (humidity > 80) probability += 10;
+    
+    // Wind speed factor
+    if (windSpeed > 40) probability += 10;
+    else if (windSpeed > 30) probability += 5;
+    
+    return Math.min(probability, 95);
+}
+
+function predictLandslide(rainfall, humidity, earthquake) {
+    let probability = 0;
+    
+    // Rainfall is primary factor for landslides
+    if (rainfall > 180) probability += 70;
+    else if (rainfall > 120) probability += 50;
+    else if (rainfall > 80) probability += 30;
+    
+    // Earthquake can trigger landslides
+    if (earthquake > 5.0) probability += 25;
+    else if (earthquake > 4.0) probability += 15;
+    
+    // High humidity sustains soil saturation
+    if (humidity > 85) probability += 10;
+    
+    return Math.min(probability, 90);
+}
+
+function predictTsunami(earthquake, waveHeight) {
+    let probability = 0;
+    
+    // Earthquake magnitude is key for tsunami
+    if (earthquake > 7.0) probability += 80;
+    else if (earthquake > 6.0) probability += 50;
+    else if (earthquake > 5.0) probability += 25;
+    
+    // Abnormal wave height
+    if (waveHeight > 3.0) probability += 20;
+    else if (waveHeight > 2.0) probability += 10;
+    
+    return Math.min(probability, 85);
+}
+
+function getRiskLevel(probability) {
+    if (probability >= 70) return 'high';
+    if (probability >= 40) return 'medium';
+    return 'low';
+}
+
+// Menjalankan Prediksi
+function runPrediction() {
+    // Get input values
+    const rainfall = parseFloat(document.getElementById('predRainfall').value) || 0;
+    const humidity = parseFloat(document.getElementById('predHumidity').value) || 0;
+    const windSpeed = parseFloat(document.getElementById('predWind').value) || 0;
+    const temperature = parseFloat(document.getElementById('predTemperature').value) || 0;
+    const waveHeight = parseFloat(document.getElementById('predWave').value) || 0;
+    const earthquake = parseFloat(document.getElementById('predEarthquake').value) || 0;
+    
+    // Validate input
+    if (rainfall === 0 && humidity === 0 && earthquake === 0) {
+        alert('Masukkan data minimal untuk curah hujan, kelembapan, atau aktivitas gempa');
+        return;
+    }
+    
+    // Run prediction
+    const predictions = predictDisaster(rainfall, humidity, windSpeed, temperature, waveHeight, earthquake);
+    
+    // Display results
+    displayPredictionResults(predictions, rainfall, humidity, earthquake);
+    
+    // Update alerts
+    updateAlerts(predictions);
+}
+
+// Menampilkan Hasil Prediksi
+function displayPredictionResults(predictions, rainfall, humidity, earthquake) {
+    const resultContainer = document.getElementById('predictionResult');
+    
+    if (predictions.length === 0) {
+        resultContainer.innerHTML = `
+            <div class="prediction-output">
+                <div class="risk-level risk-low">
+                    <h3>🟢 STATUS AMAN</h3>
+                    <div class="risk-probability">Rendah</div>
+                    <p>Berdasarkan data yang dimasukkan, tidak terdeteksi potensi bencana yang signifikan.</p>
+                </div>
+            </div>
+        `;
+        return;
+    }
+    
+    let html = '';
+    
+    predictions.forEach(pred => {
+        const riskClass = `risk-${pred.riskLevel}`;
+        const fillClass = `fill-${pred.riskLevel}`;
+        
+        html += `
+            <div class="prediction-output">
+                <div class="risk-level ${riskClass}">
+                    <h3>${getRiskIcon(pred.riskLevel)} ${pred.type}</h3>
+                    <div class="risk-probability">${pred.probability}%</div>
+                    <div class="probability-bar">
+                        <div class="probability-fill ${fillClass}" style="width: ${pred.probability}%"></div>
+                    </div>
+                    <div class="risk-recommendation">
+                        <strong>Faktor Penyebab:</strong><br>
+                        ${pred.factors.join(', ')}<br><br>
+                        <strong>Rekomendasi:</strong><br>
+                        ${getRecommendations(pred.type, pred.riskLevel)}
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+    
+    resultContainer.innerHTML = html;
+}
+
+// Generate Early Warnings dari data terbaru
+function generateEarlyWarnings() {
+    // Ambil data 7 hari terakhir untuk prediksi
+    const recentData = disasterData.slice(-7);
+    
+    recentData.forEach(data => {
+        const predictions = predictDisaster(
+            data.Curah_Hujan_mm,
+            data.Kelembapan_persen,
+            data.Kecepatan_Angin_km_jam,
+            data.Suhu_Rata2_C,
+            data.Tinggi_Gelombang_m,
+            data.Aktivitas_Gempa_skala
+        );
+        
+        // Tampilkan warning untuk probability tinggi
+        const highRiskPredictions = predictions.filter(p => p.probability >= 60);
+        if (highRiskPredictions.length > 0) {
+            displayWarning(highRiskPredictions, data.Tanggal);
+        }
+    });
+}
+
+// Menampilkan Peringatan
+function displayWarning(predictions, date) {
+    const alertContainer = document.getElementById('alertContainer');
+    
+    predictions.forEach(pred => {
+        const alertClass = pred.riskLevel === 'high' ? 'alert-danger' : 'alert-warning';
+        const alertIcon = pred.riskLevel === 'high' ? '🚨' : '⚠️';
+        
+        const alertHTML = `
+            <div class="alert-item ${alertClass}">
+                <div class="alert-icon">${alertIcon}</div>
+                <div class="alert-content">
+                    <h4>Peringatan ${pred.type}</h4>
+                    <p>Tanggal: ${date} - Probabilitas: ${pred.probability}% - ${getAlertMessage(pred.type, pred.riskLevel)}</p>
+                </div>
+            </div>
+        `;
+        
+        alertContainer.innerHTML += alertHTML;
+    });
+}
+
+function updateAlerts(predictions) {
+    const alertContainer = document.getElementById('alertContainer');
+    alertContainer.innerHTML = ''; // Clear previous alerts
+    
+    predictions.forEach(pred => {
+        if (pred.probability >= 40) {
+            const alertClass = pred.riskLevel === 'high' ? 'alert-danger' : 
+                             pred.riskLevel === 'medium' ? 'alert-warning' : 'alert-info';
+            const alertIcon = pred.riskLevel === 'high' ? '🚨' : 
+                            pred.riskLevel === 'medium' ? '⚠️' : 'ℹ️';
+            
+            const alertHTML = `
+                <div class="alert-item ${alertClass}">
+                    <div class="alert-icon">${alertIcon}</div>
+                    <div class="alert-content">
+                        <h4>Prediksi ${pred.type}</h4>
+                        <p>${getAlertMessage(pred.type, pred.riskLevel)} Probabilitas: ${pred.probability}%</p>
+                    </div>
+                </div>
+            `;
+            
+            alertContainer.innerHTML += alertHTML;
+        }
+    });
+}
+
+// Helper Functions
+function getRiskIcon(riskLevel) {
+    switch(riskLevel) {
+        case 'high': return '🔴';
+        case 'medium': return '🟡';
+        case 'low': return '🟢';
+        default: return '⚪';
+    }
+}
+
+function getRecommendations(type, riskLevel) {
+    const recommendations = {
+        'Banjir': {
+            'high': 'Evakuasi ke tempat tinggi, matikan listrik, hindari daerah aliran air',
+            'medium': 'Siapkan tas darurat, pantau informasi terbaru, hindari daerah rendah',
+            'low': 'Pantau curah hujan, pastikan saluran air lancar'
+        },
+        'Tanah Longsor': {
+            'high': 'Segera evakuasi dari lereng, hindari daerah bawah tebing',
+            'medium': 'Waspada retakan tanah, hindari daerah lereng curam',
+            'low': 'Pantau kondisi tanah, perbaiki drainase'
+        },
+        'Tsunami': {
+            'high': 'Segera evakuasi ke tempat tinggi >10 meter, jauhi pantai',
+            'medium': 'Siap evakuasi, pantau peringatan resmi',
+            'low': 'Ketahui jalur evakuasi, pantau informasi gempa'
+        }
+    };
+    
+    return recommendations[type]?.[riskLevel] || 'Pantau informasi dari pihak berwenang';
+}
+
+function getAlertMessage(type, riskLevel) {
+    const messages = {
+        'high': `WASPADA! Potensi ${type} tinggi. `,
+        'medium': `Perhatian! Terdeteksi potensi ${type}. `,
+        'low': `Pantauan ${type}. `
+    };
+    
+    return messages[riskLevel] || 'Terdeteksi aktivitas tidak biasa. ';
 }
