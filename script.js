@@ -143,3 +143,36 @@ function initializeCharts() {
     createMonthlyDisasterChart();
     createRainfallByStatusChart();
 }
+
+// Chart 1: Distribusi Jenis Bencana
+function createDisasterTypeChart() {
+    const statusCounts = {};
+    disasterData.forEach(row => {
+        const status = row.Status_Bencana;
+        statusCounts[status] = (statusCounts[status] || 0) + 1;
+    });
+    
+    const ctx = document.getElementById('disasterTypeChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: Object.keys(statusCounts),
+            datasets: [{
+                data: Object.values(statusCounts),
+                backgroundColor: [
+                    '#2ecc71', '#f39c12', '#e67e22', '#e74c3c', 
+                    '#8e44ad', '#9b59b6', '#34495e'
+                ]
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }
+    });
+}
