@@ -211,3 +211,38 @@ function createRainfallChart() {
         }
     });
 }
+// Chart 3: Korelasi Parameter
+function createCorrelationChart() {
+    const ctx = document.getElementById('correlationChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'scatter',
+        data: {
+            datasets: [{
+                label: 'Curah Hujan vs Kelembapan',
+                data: disasterData.map(row => ({
+                    x: row.Curah_Hujan_mm,
+                    y: row.Kelembapan_persen
+                })),
+                backgroundColor: 'rgba(231, 76, 60, 0.7)'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Curah Hujan (mm)'
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Kelembapan (%)'
+                    }
+                }
+            }
+        }
+    });
+}
