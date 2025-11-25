@@ -318,3 +318,14 @@ function createRainfallByStatusChart() {
         }
     });
 }
+// Helper function for percentiles
+function calculatePercentile(arr, p) {
+    const sorted = [...arr].sort((a, b) => a - b);
+    const index = (p / 100) * (sorted.length - 1);
+    const lower = Math.floor(index);
+    const upper = lower + 1;
+    const weight = index - lower;
+    
+    if (upper >= sorted.length) return sorted[lower];
+    return sorted[lower] * (1 - weight) + sorted[upper] * weight;
+}
