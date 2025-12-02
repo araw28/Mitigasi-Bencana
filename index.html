@@ -57,14 +57,14 @@
                 <div class="stat-card">
                     <div class="stat-icon">⚠️</div>
                     <div class="stat-info">
-                        <h3>Kejadian Bencana</h3>
+                        <h3>Kejadian Banjir</h3>
                         <span id="totalDisaster">0</span>
                     </div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-icon">🔴</div>
                     <div class="stat-info">
-                        <h3>Banjir Berat</h3>
+                        <h3>Status Awas</h3>
                         <span id="heavyFlood">0</span>
                     </div>
                 </div>
@@ -73,7 +73,7 @@
             <div class="dashboard-grid">
                 <div class="card">
                     <div class="card-header">
-                        <div class="card-title">Distribusi Jenis Bencana</div>
+                        <div class="card-title">Distribusi Status Banjir</div>
                     </div>
                     <div class="chart-container">
                         <canvas id="disasterTypeChart"></canvas>
@@ -91,7 +91,7 @@
                 
                 <div class="card">
                     <div class="card-header">
-                        <div class="card-title">Korelasi Parameter</div>
+                        <div class="card-title">Banjir per Kabupaten</div>
                     </div>
                     <div class="chart-container">
                         <canvas id="correlationChart"></canvas>
@@ -103,13 +103,16 @@
 
     <section id="data" class="dashboard">
         <div class="container">
-            <h2>Data Historis Bencana</h2>
+            <h2>Data Historis Banjir</h2>
             <div class="card">
                 <div class="card-header">
-                    <div class="card-title">Dataset Bencana Kota Palu</div>
+                    <div class="card-title">Dataset Banjir Kota Palu</div>
                     <div class="filters">
                         <select id="yearFilter" class="form-control">
                             <option value="">Semua Tahun</option>
+                        </select>
+                        <select id="disasterFilter" class="form-control">
+                            <option value="">Semua Semua Kabupaten</option>
                         </select>
                         <select id="disasterFilter" class="form-control">
                             <option value="">Semua Status</option>
@@ -121,13 +124,14 @@
                         <thead>
                             <tr>
                                 <th>Tanggal</th>
+                                <th>Kabupaten</th>
                                 <th>Curah Hujan (mm)</th>
                                 <th>Kelembapan (%)</th>
                                 <th>Kecepatan Angin (km/jam)</th>
                                 <th>Suhu Rata-rata (°C)</th>
-                                <th>Tinggi Gelombang (m)</th>
-                                <th>Aktivitas Gempa</th>
-                                <th>Status Bencana</th>
+                                <th>Tinggi Muka Air (m)</th>
+                                <th>Indeks Risiko</th>
+                                <th>Status Banjir</th>
                             </tr>
                         </thead>
                         <tbody id="dataTable">
