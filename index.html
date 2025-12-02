@@ -21,6 +21,7 @@
             <ul>
               <li><a href="#dashboard">Dashboard</a></li>
               <li><a href="#data">Data Bencana</a></li>
+              <li><a href="#prediksi">Data Bencana</a></li>
               <li><a href="#analisis">Analisis</a></li>
               <li><a href="#tentang">Tentang</a></li>
             </ul>
@@ -137,6 +138,87 @@
             </div>
         </div>
     </section>
+    
+        <section id="prediksi" class="dashboard">
+            <div class="container">
+                <h2>Prediksi Banjir</h2>
+                <div class="dashboard-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Input Data Prediksi</div>
+                        </div>
+                        <div class="prediction-form">
+                            <div class="form-group">
+                                <label for="districtSelect">Pilih Kecamatan:</label>
+                                <select id="districtSelect" class="form-control">
+                                    <option value="Palu Barat">Palu Barat</option>
+                                    <option value="Palu Selatan">Palu Selatan</option>
+                                    <option value="Palu Timur">Palu Timur</option>
+                                    <option value="Palu Utara">Palu Utara</option>
+                                    <option value="Tatanga">Tatanga</option>
+                                    <option value="Ulujadi">Ulujadi</option>
+                                    <option value="Mantikulore">Mantikulore</option>
+                                    <option value="Tawaeli">Tawaeli</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="rainfallInput">Curah Hujan (mm):</label>
+                                <input type="number" id="rainfallInput" class="form-control" step="0.1" min="0" value="50">
+                            </div>
+                            <div class="form-group">
+                                <label for="humidityInput">Kelembapan (%):</label>
+                                <input type="number" id="humidityInput" class="form-control" step="1" min="0" max="100" value="80">
+                            </div>
+                            <div class="form-group">
+                                <label for="windSpeedInput">Kecepatan Angin (km/jam):</label>
+                                <input type="number" id="windSpeedInput" class="form-control" step="1" min="0" value="20">
+                            </div>
+                            <div class="form-group">
+                                <label for="temperatureInput">Suhu Rata-rata (°C):</label>
+                                <input type="number" id="temperatureInput" class="form-control" step="0.1" min="0" value="28.5">
+                            </div>
+                            <div class="form-group">
+                                <label for="waterLevelInput">Tinggi Muka Air (m):</label>
+                                <input type="number" id="waterLevelInput" class="form-control" step="0.1" min="0" value="1.2">
+                            </div>
+                            <button id="predictButton" class="btn-predict">Prediksi Status Banjir</button>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Hasil Prediksi</div>
+                        </div>
+                        <div class="prediction-result">
+                            <div id="predictionOutput" class="prediction-output">
+                                <div class="prediction-district">
+                                    <span id="districtText">-</span>
+                                </div>
+                                <div class="prediction-status">
+                                    <span id="predictionText">Masukkan data dan klik prediksi</span>
+                                </div>
+                                <div class="prediction-confidence">
+                                    <span id="confidenceText">Tingkat kepercayaan: -</span>
+                                </div>
+                                <div class="prediction-details">
+                                    <h4>Rekomendasi:</h4>
+                                    <p id="recommendationText">-</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Akurasi Model Prediksi</div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="accuracyChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
     
     <section id="analisis" class="dashboard">
         <div class="container">
