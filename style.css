@@ -110,6 +110,12 @@ nav ul li a:hover {
     padding: 2rem 0;
 }
 
+.dashboard h2 {
+    margin-bottom: 1.5rem;
+    color: var(--primary);
+    font-size: 2rem;
+}
+
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
