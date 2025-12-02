@@ -247,24 +247,16 @@ nav ul li a:hover {
     background-color: var(--success);
 }
 
-.status-ringan {
+.status-waspada {
     background-color: #f39c12;
 }
 
-.status-sedang {
+.status-siaga {
     background-color: #e67e22;
 }
 
-.status-berat {
+.status-awas {
     background-color: var(--danger);
-}
-
-.status-longsor {
-    background-color: #8e44ad;
-}
-
-.status-tsunami {
-    background-color: #9b59b6;
 }
 
 .form-control {
