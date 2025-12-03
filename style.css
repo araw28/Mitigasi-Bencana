@@ -347,4 +347,8 @@ footer {
         width: 100%;
         justify-content: space-between;
     }
+
+    .footer-content {
+        flex-direction: column;
+    }
 }
