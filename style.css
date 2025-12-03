@@ -326,6 +326,10 @@ footer {
         font-size: 2rem;
     }
     
+        .hero p {
+        font-size: 1rem;
+    }
+    
     .dashboard-grid {
         grid-template-columns: 1fr;
     }
