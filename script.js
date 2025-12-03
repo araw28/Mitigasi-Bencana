@@ -22,6 +22,18 @@ const csvData = `Tanggal,Kecamatan,Curah_Hujan_mm,Kelembapan_persen,Kecepatan_An
 let disasterData = [];
 let predictionModel = null;
 
+// Koordinat kecamatan di Kota Palu
+const districtCoordinates = {
+    'Palu Barat': { lat: -0.8965, lng: 119.8617 },
+    'Palu Selatan': { lat: -0.9186, lng: 119.8722 },
+    'Palu Timur': { lat: -0.8908, lng: 119.8875 },
+    'Palu Utara': { lat: -0.8708, lng: 119.8722 },
+    'Tatanga': { lat: -0.9083, lng: 119.8500 },
+    'Ulujadi': { lat: -0.8833, lng: 119.8500 },
+    'Mantikulore': { lat: -0.9000, lng: 119.8333 },
+    'Tawaeli': { lat: -0.8500, lng: 119.9000 }
+};
+
 // Parse CSV data
 function parseCSVData() {
   const parsed = Papa.parse(csvData, {
