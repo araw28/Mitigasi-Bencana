@@ -514,3 +514,29 @@ footer {
     margin-bottom: 8px;
     color: var(--primary);
 }
+
+.risk-factors {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.risk-factor {
+    text-align: center;
+    padding: 10px;
+    background: white;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.risk-factor .value {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--primary);
+}
+
+.risk-factor .label {
+    font-size: 0.8rem;
+    color: var(--dark);
+}
