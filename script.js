@@ -20,6 +20,7 @@ const csvData = `Tanggal,Kecamatan,Curah_Hujan_mm,Kelembapan_persen,Kecepatan_An
 2025-07-12,Palu Barat,8.5,91,3.6,26,0.5,0.67,Aman`;
 
 let disasterData = [];
+let predictionModel = null;
 
 // Parse CSV data
 function parseCSVData() {
