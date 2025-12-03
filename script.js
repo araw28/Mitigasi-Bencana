@@ -409,56 +409,54 @@ function createAccuracyChart() {
     });
 }
 
-// Helper function for percentiles
-function calculatePercentile(arr, p) {
-  const sorted = [...arr].sort((a, b) => a - b);
-  const index = (p / 100) * (sorted.length - 1);
-  const lower = Math.floor(index);
-  const upper = lower + 1;
-  const weight = index - lower;
-
-  if (upper >= sorted.length) return sorted[lower];
-  return sorted[lower] * (1 - weight) + sorted[upper] * weight;
-}
-
-// Initialize map
+// Initialize map dengan marker kecamatan
 function initializeMap() {
-  const map = L.map("disasterMap").setView([-0.9018, 119.8776], 12);
-
-  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    attribution:
-      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-  }).addTo(map);
-
-  // Add markers for disaster events
-  disasterData
-    .filter((row) => row.Status_Bencana !== "Aman")
-    .forEach((row) => {
-      const lat = -0.9018 + (Math.random() - 0.5) * 0.1;
-      const lng = 119.8776 + (Math.random() - 0.5) * 0.1;
-
-      let color;
-      if (row.Status_Bencana.includes("Berat")) color = "red";
-      else if (row.Status_Bencana.includes("Sedang")) color = "orange";
-      else if (row.Status_Bencana.includes("Ringan")) color = "yellow";
-      else if (row.Status_Bencana.includes("Longsor")) color = "brown";
-      else if (row.Status_Bencana.includes("Tsunami")) color = "blue";
-      else color = "gray";
-
-      L.circleMarker([lat, lng], {
-        color: color,
-        fillColor: color,
-        fillOpacity: 0.7,
-        radius: 8,
-      }).addTo(map).bindPopup(`
-            <div style="text-align: center;">
-                <b>${row.Tanggal}</b><br>
-                <span style="color: ${color}; font-weight: bold;">${row.Status_Bencana}</span><br>
-                Curah Hujan: ${row.Curah_Hujan_mm} mm<br>
-                Kelembapan: ${row.Kelembapan_persen}%<br>
-                Gelombang: ${row.Tinggi_Gelombang_m} m
-            </div>
-        `);
+    const map = L.map('disasterMap').setView([-0.9018, 119.8776], 11);
+    
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+    
+    // Add markers for flood events dengan koordinat kecamatan
+    disasterData.filter(row => row.Status_Banjir !== 'Aman').forEach(row => {
+        const district = row.Kecamatan;
+        const coords = districtCoordinates[district];
+        
+        if (coords) {
+            // Tambahkan sedikit variasi pada koordinat untuk menghindari overlap
+            const lat = coords.lat + (Math.random() - 0.5) * 0.01;
+            const lng = coords.lng + (Math.random() - 0.5) * 0.01;
+            
+            let color;
+            if (row.Status_Banjir === 'Awas') color = 'red';
+            else if (row.Status_Banjir === 'Siaga') color = 'orange';
+            else if (row.Status_Banjir === 'Waspada') color = 'yellow';
+            else color = 'gray';
+            
+            L.circleMarker([lat, lng], {
+                color: color,
+                fillColor: color,
+                fillOpacity: 0.7,
+                radius: 8
+            }).addTo(map).bindPopup(`
+                <div style="text-align: center;">
+                    <b>${district}</b><br>
+                    <b>${row.Tanggal}</b><br>
+                    <span style="color: ${color}; font-weight: bold;">${row.Status_Banjir}</span><br>
+                    Curah Hujan: ${row.Curah_Hujan_mm} mm<br>
+                    Tinggi Muka Air: ${row.Tinggi_Muka_Air_m} m<br>
+                    Indeks Risiko: ${row.Indeks_Risiko}
+                </div>
+            `);
+        }
+    });
+    
+    // Tambahkan marker untuk setiap kecamatan
+    Object.entries(districtCoordinates).forEach(([district, coords]) => {
+        L.marker([coords.lat, coords.lng])
+            .addTo(map)
+            .bindPopup(`<b>${district}</b><br>Kecamatan Kota Palu`)
+            .openPopup();
     });
 }
 
