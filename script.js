@@ -364,6 +364,51 @@ function createRainfallByStatusChart() {
   });
 }
 
+// Chart 6: Akurasi Model
+function createAccuracyChart() {
+    const ctx = document.getElementById('accuracyChart').getContext('2d');
+    
+    const accuracyData = {
+        labels: ['Decision Tree', 'Random Forest', 'SVM', 'Neural Network'],
+        datasets: [{
+            label: 'Akurasi Model (%)',
+            data: [85, 92, 78, 89],
+            backgroundColor: [
+                'rgba(52, 152, 219, 0.7)',
+                'rgba(46, 204, 113, 0.7)',
+                'rgba(155, 89, 182, 0.7)',
+                'rgba(241, 196, 15, 0.7)'
+            ],
+            borderColor: [
+                'rgb(52, 152, 219)',
+                'rgb(46, 204, 113)',
+                'rgb(155, 89, 182)',
+                'rgb(241, 196, 15)'
+            ],
+            borderWidth: 1
+        }]
+    };
+    
+    new Chart(ctx, {
+        type: 'bar',
+        data: accuracyData,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100,
+                    title: {
+                        display: true,
+                        text: 'Akurasi (%)'
+                    }
+                }
+            }
+        }
+    });
+}
+
 // Helper function for percentiles
 function calculatePercentile(arr, p) {
   const sorted = [...arr].sort((a, b) => a - b);
