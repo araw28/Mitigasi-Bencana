@@ -451,3 +451,24 @@ footer {
     background-color: var(--danger);
     color: white;
 }
+
+/* Progress bar untuk confidence */
+.confidence-bar {
+    width: 100%;
+    height: 8px;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    margin: 10px 0;
+    overflow: hidden;
+}
+
+.confidence-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.5s ease;
+}
+
+.confidence-aman { background-color: var(--success); }
+.confidence-waspada { background-color: var(--warning); }
+.confidence-siaga { background-color: #e67e22; }
+.confidence-awas { background-color: var(--danger); }
