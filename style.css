@@ -352,3 +352,81 @@ footer {
         flex-direction: column;
     }
 }
+
+
+
+/* Styles untuk section prediksi */
+.prediction-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: var(--dark);
+    font-size: 0.9rem;
+}
+
+.btn-predict {
+    background: linear-gradient(135deg, var(--secondary), var(--primary));
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+
+.btn-predict:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+}
+
+.prediction-result {
+    padding: 20px 0;
+}
+
+.prediction-output {
+    text-align: center;
+}
+
+.prediction-status {
+    margin-bottom: 20px;
+}
+
+.prediction-status span {
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 25px;
+    display: inline-block;
+}
+
+.prediction-confidence {
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+    color: var(--dark);
+}
+
+.prediction-details {
+    text-align: left;
+    background: var(--light);
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--secondary);
+}
+
+.prediction-details h4 {
+    margin-bottom: 10px;
+    color: var(--primary);
+}
