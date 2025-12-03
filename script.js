@@ -100,30 +100,20 @@ function initializeFilters() {
     disasterFilter.addEventListener('change', filterTable);
 }
 
-  statuses.forEach((status) => {
-    const option = document.createElement("option");
-    option.value = status;
-    option.textContent = status;
-    disasterFilter.appendChild(option);
-  });
-
-  yearFilter.addEventListener("change", filterTable);
-  disasterFilter.addEventListener("change", filterTable);
-}
-
 // Filter table data
 function filterTable() {
-  const yearFilter = document.getElementById("yearFilter").value;
-  const disasterFilter = document.getElementById("disasterFilter").value;
-
-  const filteredData = disasterData.filter((row) => {
-    const matchYear = !yearFilter || row.Tahun == yearFilter;
-    const matchDisaster =
-      !disasterFilter || row.Status_Bencana === disasterFilter;
-    return matchYear && matchDisaster;
-  });
-
-  populateDataTable(filteredData);
+    const yearFilter = document.getElementById('yearFilter').value;
+    const districtFilter = document.getElementById('districtFilter').value;
+    const disasterFilter = document.getElementById('disasterFilter').value;
+    
+    const filteredData = disasterData.filter(row => {
+        const matchYear = !yearFilter || row.Tahun == yearFilter;
+        const matchDistrict = !districtFilter || row.Kecamatan === districtFilter;
+        const matchDisaster = !disasterFilter || row.Status_Banjir === disasterFilter;
+        return matchYear && matchDistrict && matchDisaster;
+    });
+    
+    populateDataTable(filteredData);
 }
 
 // Populate data table
