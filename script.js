@@ -66,20 +66,39 @@ function initializeStats() {
 
 // Initialize filters
 function initializeFilters() {
-  const years = [...new Set(disasterData.map((row) => row.Tahun))].sort();
-  const statuses = [
-    ...new Set(disasterData.map((row) => row.Status_Bencana)),
-  ].sort();
-
-  const yearFilter = document.getElementById("yearFilter");
-  const disasterFilter = document.getElementById("disasterFilter");
-
-  years.forEach((year) => {
-    const option = document.createElement("option");
-    option.value = year;
-    option.textContent = year;
-    yearFilter.appendChild(option);
-  });
+    const years = [...new Set(disasterData.map(row => row.Tahun))].sort();
+    const districts = [...new Set(disasterData.map(row => row.Kecamatan))].sort();
+    const statuses = [...new Set(disasterData.map(row => row.Status_Banjir))].sort();
+    
+    const yearFilter = document.getElementById('yearFilter');
+    const districtFilter = document.getElementById('districtFilter');
+    const disasterFilter = document.getElementById('disasterFilter');
+    
+    years.forEach(year => {
+        const option = document.createElement('option');
+        option.value = year;
+        option.textContent = year;
+        yearFilter.appendChild(option);
+    });
+    
+    districts.forEach(district => {
+        const option = document.createElement('option');
+        option.value = district;
+        option.textContent = district;
+        districtFilter.appendChild(option);
+    });
+    
+    statuses.forEach(status => {
+        const option = document.createElement('option');
+        option.value = status;
+        option.textContent = status;
+        disasterFilter.appendChild(option);
+    });
+    
+    yearFilter.addEventListener('change', filterTable);
+    districtFilter.addEventListener('change', filterTable);
+    disasterFilter.addEventListener('change', filterTable);
+}
 
   statuses.forEach((status) => {
     const option = document.createElement("option");
