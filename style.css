@@ -489,3 +489,28 @@ footer {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+/* Tambahkan di bagian akhir file style.css */
+
+.prediction-district {
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--primary);
+    padding: 8px 16px;
+    background-color: var(--light);
+    border-radius: 8px;
+    text-align: center;
+}
+
+.district-info {
+    background: var(--light);
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    border-left: 4px solid var(--secondary);
+}
+
+.district-info h4 {
+    margin-bottom: 8px;
+    color: var(--primary);
+}
