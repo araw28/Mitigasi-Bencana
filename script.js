@@ -156,11 +156,11 @@ function initializeCharts() {
   createAccuracyChart();
 }
 
-// Chart 1: Distribusi Jenis Bencana
+// Chart 1: Distribusi Status Banjir
 function createDisasterTypeChart() {
   const statusCounts = {};
   disasterData.forEach((row) => {
-    const status = row.Status_Bencana;
+    const status = row.Status_Banjir;
     statusCounts[status] = (statusCounts[status] || 0) + 1;
   });
 
@@ -169,21 +169,13 @@ function createDisasterTypeChart() {
     type: "pie",
     data: {
       labels: Object.keys(statusCounts),
-      datasets: [
-        {
+      datasets: [{
           data: Object.values(statusCounts),
           backgroundColor: [
-            "#2ecc71",
-            "#f39c12",
-            "#e67e22",
-            "#e74c3c",
-            "#8e44ad",
-            "#9b59b6",
-            "#34495e",
-          ],
+            '#2ecc71', '#f39c12', '#e67e22', '#e74c3c'
+                ]
+            }]
         },
-      ],
-    },
     options: {
       responsive: true,
       maintainAspectRatio: false,
