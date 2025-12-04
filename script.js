@@ -1,23 +1,44 @@
 // Dataset CSV
 const csvData = `Tanggal,Kecamatan,Curah_Hujan_mm,Kelembapan_persen,Kecepatan_Angin_km_jam,Suhu_Rata2_C,Tinggi_Muka_Air_m,Indeks_Risiko,Status_Banjir
-2022-07-31,Mantikulore,60,90,25.2,21,1.2,2.4,Waspada
-2022-09-06,Palu Barat,90,87,10.8,22.2,1.8,3.6,Siaga
-2022-09-06,Palu Timur,90,87,10.8,22.2,1.8,3.6,Siaga
-2022-09-24,Palu Barat,50,80,25.2,22.6,1.0,2.0,Waspada
-2023-03-07,Palu Barat,80,76,32.4,21.2,1.6,3.2,Siaga
-2023-07-22,Palu Barat,120,80,32.4,23.2,2.4,4.8,Awas
-2023-07-22,Palu Selatan,200,80,32.4,23.2,3.0,7.0,Awas
-2023-07-22,Ulujadi,100,80,32.4,23.2,2.0,4.0,Awas
-2023-07-22,Mantikulore,130,80,32.4,23.2,2.6,5.2,Awas
-2023-09-17,Mantikulore,100,86,25.2,24.6,2.0,4.0,Awas
-2024-05-04,Palu Barat,6.5,79,7.2,27.8,0.5,0.63,Aman
-2024-08-23,Ulujadi,11.9,88,3.6,26,0.5,0.74,Aman
-2024-09-01,Ulujadi,50,84,7.2,27.1,1.0,2.0,Waspada
-2025-04-25,Ulujadi,100,90,3.6,26.6,2.0,4.0,Awas
-2025-04-25,Palu Barat,130,90,3.6,26.6,2.6,5.2,Awas
-2025-04-25,Mantikulore,150,90,3.6,26.6,3.0,6.0,Awas
-2025-07-12,Palu Selatan,8.5,91,3.6,26,0.5,0.67,Aman
-2025-07-12,Palu Barat,8.5,91,3.6,26,0.5,0.67,Aman`;
+2022-04-15,Palu Barat,45,85,4.5,24.2,0.9,1.8,Waspada
+2022-06-18,Mantikulore,75,87,3.8,24.0,1.5,3.0,Siaga
+2022-06-18,Ulujadi,70,87,3.8,24.0,1.4,2.8,Siaga
+2022-09-05,Palu Timur,35,84,5.2,23.8,0.7,1.4,Waspada
+2022-10-12,Palu Barat,55,84,4.8,24.6,1.1,2.2,Waspada
+2022-11-22,Mantikulore,85,86,4.3,24.8,1.7,3.4,Siaga
+2023-04-07,Palu Selatan,95,86,4.7,24.3,1.9,3.8,Siaga
+2023-04-07,Ulujadi,90,86,4.7,24.3,1.8,3.6,Siaga
+2023-05-18,Palu Barat,110,87,4.5,24.3,2.2,4.4,Awas
+2023-06-22,Mantikulore,145,87,4.2,24.1,2.9,5.8,Awas
+2023-06-22,Palu Timur,140,87,4.2,24.1,2.8,5.6,Awas
+2023-07-21,Palu Barat,125,86,4.6,23.9,2.5,5.0,Awas
+2023-07-21,Palu Selatan,180,86,4.6,23.9,3.0,6.0,Awas
+2023-07-21,Ulujadi,110,86,4.6,23.9,2.2,4.4,Awas
+2023-07-21,Mantikulore,150,86,4.6,23.9,3.0,6.0,Awas
+2023-08-14,Ulujadi,95,85,4.9,23.7,1.9,3.8,Siaga
+2023-10-28,Palu Barat,120,84,4.8,24.5,2.4,4.8,Awas
+2024-03-12,Palu Selatan,65,85,4.4,24.1,1.3,2.6,Siaga
+2024-04-25,Mantikulore,88,85,4.6,24.2,1.8,3.6,Siaga
+2024-05-16,Ulujadi,105,87,4.3,24.3,2.1,4.2,Awas
+2024-06-24,Palu Barat,155,87,4.1,24.0,3.0,6.0,Awas
+2024-06-24,Palu Selatan,145,87,4.1,24.0,2.9,5.8,Awas
+2024-08-10,Palu Timur,42,85,4.8,23.8,0.8,1.6,Waspada
+2024-09-18,Ulujadi,28,84,5.1,23.9,0.6,1.2,Aman
+2024-10-22,Mantikulore,58,84,4.9,24.5,1.2,2.4,Waspada
+2024-11-15,Palu Barat,72,86,4.4,24.7,1.5,3.0,Siaga
+2025-01-08,Palu Selatan,35,84,5.2,23.6,0.7,1.4,Waspada
+2025-02-19,Ulujadi,48,84,5.0,23.8,1.0,2.0,Waspada
+2025-03-27,Palu Barat,82,85,4.7,24.0,1.6,3.2,Siaga
+2025-04-16,Mantikulore,125,86,4.5,24.2,2.5,5.0,Awas
+2025-04-16,Palu Timur,115,86,4.5,24.2,2.3,4.6,Awas
+2025-05-22,Palu Selatan,138,87,4.3,24.3,2.7,5.4,Awas
+2025-06-09,Palu Barat,165,87,4.2,24.1,3.0,6.0,Awas
+2025-06-09,Ulujadi,152,87,4.2,24.1,3.0,6.0,Awas
+2025-07-18,Mantikulore,98,86,4.6,23.8,2.0,4.0,Awas
+2025-08-25,Palu Barat,44,85,4.9,23.7,0.9,1.8,Waspada
+2025-09-14,Palu Timur,25,84,5.3,23.9,0.5,1.0,Aman
+2025-10-30,Ulujadi,67,84,4.8,24.6,1.4,2.8,Siaga
+2025-11-20,Palu Selatan,85,86,4.4,24.8,1.7,3.4,Siaga`;
 
 let disasterData = [];
 let predictionModel = null;
