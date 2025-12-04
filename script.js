@@ -507,4 +507,128 @@ class FloodPredictionModel {
         };
     }
 
-  }
+    // Metode untuk mendapatkan rekomendasi berdasarkan status dan daerah
+    getRecommendation(status, district) {
+        const baseRecommendations = {
+            Aman: 'Kondisi normal. Tetap waspada terhadap perubahan cuaca.',
+            Waspada: 'Waspada terhadap kemungkinan banjir. Pantau perkembangan cuaca.',
+            Siaga: 'Bersiap untuk kemungkinan banjir. Evakuasi barang berharga ke tempat yang lebih tinggi.',
+            Awas: 'Banjir diperkirakan terjadi. Lakukan evakuasi segera ke tempat yang aman.'
+        };
+        
+        const districtSpecific = {
+            'Palu Selatan': 'Daerah rawan banjir, perhatikan saluran drainase.',
+            'Palu Utara': 'Area dekat sungai, waspada kenaikan air mendadak.',
+            'Tatanga': 'Daerah dataran rendah, perhatikan genangan air.',
+            'Ulujadi': 'Perhatikan sistem pengairan dan pompa air.'
+        };
+        
+        let recommendation = baseRecommendations[status] || 'Tidak ada rekomendasi tersedia.';
+        
+        if (districtSpecific[district]) {
+            recommendation += ' ' + districtSpecific[district];
+        }
+        
+        return recommendation;
+    }
+}
+
+// Initialize prediction functionality
+function initializePrediction() {
+    predictionModel = new FloodPredictionModel();
+    
+    const predictButton = document.getElementById('predictButton');
+    predictButton.addEventListener('click', performPrediction);
+}
+
+// Perform prediction
+function performPrediction() {
+    const district = document.getElementById('districtSelect').value;
+    const rainfall = parseFloat(document.getElementById('rainfallInput').value);
+    const humidity = parseFloat(document.getElementById('humidityInput').value);
+    const windSpeed = parseFloat(document.getElementById('windSpeedInput').value);
+    const temperature = parseFloat(document.getElementById('temperatureInput').value);
+    const waterLevel = parseFloat(document.getElementById('waterLevelInput').value);
+
+    // Validasi input
+    if (isNaN(rainfall) || isNaN(humidity) || isNaN(windSpeed) || isNaN(temperature) || isNaN(waterLevel)) {
+        alert('Harap masukkan semua nilai dengan benar!');
+        return;
+    }
+
+    // Tampilkan loading
+    const districtText = document.getElementById('districtText');
+    const predictionText = document.getElementById('predictionText');
+    const confidenceText = document.getElementById('confidenceText');
+    const recommendationText = document.getElementById('recommendationText');
+    
+    districtText.textContent = `Kecamatan: ${district}`;
+    predictionText.innerHTML = '<div class="loading"></div>Memproses prediksi...';
+    predictionText.className = 'prediction-status';
+    confidenceText.textContent = 'Tingkat kepercayaan: -';
+    recommendationText.textContent = '-';
+
+    // Simulasi proses prediksi
+    setTimeout(() => {
+        const input = {
+            district: district,
+            rainfall: rainfall,
+            humidity: humidity,
+            windSpeed: windSpeed,
+            temperature: temperature,
+            waterLevel: waterLevel
+        };
+
+        const result = predictionModel.predict(input);
+        
+        // Tampilkan hasil prediksi
+        const confidencePercent = Math.round(result.confidence * 100);
+        const vulnerabilityPercent = Math.round(result.vulnerability * 100);
+        
+        districtText.textContent = `Kecamatan: ${district} (Kerentanan: ${vulnerabilityPercent}%)`;
+        predictionText.innerHTML = result.status;
+        predictionText.className = `prediction-status status-prediction-${result.status.toLowerCase()}`;
+        
+        confidenceText.textContent = `Tingkat kepercayaan: ${confidencePercent}%`;
+        recommendationText.textContent = predictionModel.getRecommendation(result.status, district);
+        
+        // Tambahkan progress bar untuk confidence
+        if (!document.querySelector('.confidence-bar')) {
+            const confidenceBar = document.createElement('div');
+            confidenceBar.className = 'confidence-bar';
+            confidenceBar.innerHTML = `<div class="confidence-fill confidence-${result.status.toLowerCase()}" style="width: ${confidencePercent}%"></div>`;
+            confidenceText.parentNode.insertBefore(confidenceBar, confidenceText.nextSibling);
+        }
+        
+    }, 1500);
+}
+
+// Smooth scrolling untuk navigasi
+function initializeSmoothScrolling() {
+    document.querySelectorAll('nav a').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+            
+            if (targetElement) {
+                targetElement.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+}
+
+// Initialize everything when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    parseCSVData();
+    initializeStats();
+    initializeFilters();
+    populateDataTable();
+    initializeCharts();
+    initializeMap();
+    initializePrediction();
+    initializeSmoothScrolling();
+});
