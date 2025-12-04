@@ -302,38 +302,30 @@ function createMonthlyDisasterChart() {
 function createRainfallByStatusChart() {
   const statusGroups = {};
   disasterData.forEach((row) => {
-    if (!statusGroups[row.Status_Bencana]) {
-      statusGroups[row.Status_Bencana] = [];
+    if (!statusGroups[row.Status_Banjir]) {
+      statusGroups[row.Status_Banjir] = [];
     }
-    statusGroups[row.Status_Bencana].push(row.Curah_Hujan_mm);
+    statusGroups[row.Status_Banjir].push(row.Curah_Hujan_mm);
   });
 
   const ctx = document.getElementById("rainfallByStatusChart").getContext("2d");
   new Chart(ctx, {
-    type: "boxplot",
-    data: {
-      labels: Object.keys(statusGroups),
-      datasets: [
-        {
-          label: "Distribusi Curah Hujan",
-          data: Object.values(statusGroups).map((values) => ({
-            min: Math.min(...values),
-            q1: calculatePercentile(values, 25),
-            median: calculatePercentile(values, 50),
-            q3: calculatePercentile(values, 75),
-            max: Math.max(...values),
-          })),
-          backgroundColor: "rgba(52, 152, 219, 0.2)",
-          borderColor: "#3498db",
-          borderWidth: 1,
+    type: 'bar',
+        data: {
+            labels: Object.keys(statusGroups),
+            datasets: [{
+                label: 'Rata-rata Curah Hujan (mm)',
+                data: Object.values(statusGroups).map(values => {
+                    return values.reduce((a, b) => a + b, 0) / values.length;
+                }),
+                backgroundColor: 'rgba(52, 152, 219, 0.7)'
+            }]
         },
-      ],
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-    },
-  });
+        options: {
+            responsive: true,
+            maintainAspectRatio: false
+        }
+    });
 }
 
 // Chart 6: Akurasi Model
