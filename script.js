@@ -190,25 +190,21 @@ function createDisasterTypeChart() {
 
 // Chart 2: Trend Curah Hujan
 function createRainfallChart() {
-  const sortedData = [...disasterData].sort(
-    (a, b) => new Date(a.Tanggal) - new Date(b.Tanggal)
-  );
+  const sortedData = [...disasterData].sort((a, b) => new Date(a.Tanggal) - new Date(b.Tanggal));
 
   const ctx = document.getElementById("rainfallChart").getContext("2d");
   new Chart(ctx, {
-    type: "line",
+    type: 'line',
     data: {
       labels: sortedData.map((row) => row.Tanggal),
-      datasets: [
-        {
+      datasets: [{
           label: "Curah Hujan (mm)",
           data: sortedData.map((row) => row.Curah_Hujan_mm),
           borderColor: "#3498db",
           backgroundColor: "rgba(52, 152, 219, 0.1)",
           tension: 0.3,
           fill: true,
-        },
-      ],
+        }]
     },
     options: {
       responsive: true,
@@ -221,9 +217,9 @@ function createRainfallChart() {
         },
         y: {
           beginAtZero: true,
-        },
-      },
-    },
+        }
+      }
+    }
   });
 }
 
