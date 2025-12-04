@@ -223,42 +223,42 @@ function createRainfallChart() {
   });
 }
 
-// Chart 3: Korelasi Parameter
-function createCorrelationChart() {
-  const ctx = document.getElementById("correlationChart").getContext("2d");
-  new Chart(ctx, {
-    type: "scatter",
-    data: {
-      datasets: [
-        {
-          label: "Curah Hujan vs Kelembapan",
-          data: disasterData.map((row) => ({
-            x: row.Curah_Hujan_mm,
-            y: row.Kelembapan_persen,
-          })),
-          backgroundColor: "rgba(231, 76, 60, 0.7)",
+// Chart 3: Banjir per Kecamatan
+function createDistrictChart() {
+    const districtCounts = {};
+    disasterData.forEach(row => {
+        if (row.Status_Banjir !== 'Aman') {
+            const district = row.Kecamatan;
+            districtCounts[district] = (districtCounts[district] || 0) + 1;
+        }
+    });
+    
+    const ctx = document.getElementById('districtChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: Object.keys(districtCounts),
+            datasets: [{
+                label: 'Jumlah Kejadian Banjir',
+                data: Object.values(districtCounts),
+                backgroundColor: 'rgba(52, 152, 219, 0.7)',
+                borderColor: 'rgb(52, 152, 219)',
+                borderWidth: 1
+            }]
         },
-      ],
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      scales: {
-        x: {
-          title: {
-            display: true,
-            text: "Curah Hujan (mm)",
-          },
-        },
-        y: {
-          title: {
-            display: true,
-            text: "Kelembapan (%)",
-          },
-        },
-      },
-    },
-  });
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1
+                    }
+                }
+            }
+        }
+    });
 }
 
 // Chart 4: Bulan dengan Bencana Terbanyak
