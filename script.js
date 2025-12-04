@@ -150,9 +150,10 @@ function populateDataTable(data = disasterData) {
 function initializeCharts() {
   createDisasterTypeChart();
   createRainfallChart();
-  createCorrelationChart();
+  createDistrictChart();
   createMonthlyDisasterChart();
   createRainfallByStatusChart();
+  createAccuracyChart();
 }
 
 // Chart 1: Distribusi Jenis Bencana
