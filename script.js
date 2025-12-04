@@ -424,28 +424,87 @@ function initializeMap() {
     });
 }
 
-// Smooth scrolling untuk navigasi
-document.querySelectorAll("nav a").forEach((anchor) => {
-  anchor.addEventListener("click", function (e) {
-    e.preventDefault();
-    const targetId = this.getAttribute("href");
-    const targetElement = document.querySelector(targetId);
+// Machine Learning Model untuk Prediksi
+class FloodPredictionModel {
+    constructor() {
+        this.weights = {
+            rainfall: 0.4,
+            humidity: 0.2,
+            waterLevel: 0.3,
+            temperature: 0.1
+        };
+        this.thresholds = {
+            Aman: 0.2,
+            Waspada: 0.4,
+            Siaga: 0.7,
+            Awas: 0.9
+        };
 
-    if (targetElement) {
-      targetElement.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
+        // Data karakteristik kecamatan (tingkat kerentanan)
+        this.districtVulnerability = {
+            'Palu Barat': 0.7,
+            'Palu Selatan': 0.9,
+            'Palu Timur': 0.6,
+            'Palu Utara': 0.8,
+            'Tatanga': 0.5,
+            'Ulujadi': 0.7,
+            'Mantikulore': 0.4,
+            'Tawaeli': 0.6
+        };
     }
-  });
-});
 
-// Initialize everything when page loads
-document.addEventListener("DOMContentLoaded", function () {
-  parseCSVData();
-  initializeStats();
-  initializeFilters();
-  populateDataTable();
-  initializeCharts();
-  initializeMap();
-});
+    normalize(value, min, max) {
+        return (value - min) / (max - min);
+    }
+
+    predict(input) {
+        const district = input.district;
+        const vulnerability = this.districtVulnerability[district] || 0.5;
+        
+        // Normalisasi input
+        const normalizedRainfall = this.normalize(input.rainfall, 0, 200);
+        const normalizedHumidity = this.normalize(input.humidity, 0, 100);
+        const normalizedWaterLevel = this.normalize(input.waterLevel, 0, 4);
+        const normalizedTemperature = this.normalize(input.temperature, 20, 35);
+
+        // Hitung skor risiko dengan mempertimbangkan kerentanan daerah
+        let riskScore = 0;
+        riskScore += normalizedRainfall * this.weights.rainfall;
+        riskScore += normalizedHumidity * this.weights.humidity;
+        riskScore += normalizedWaterLevel * this.weights.waterLevel;
+        riskScore += (1 - normalizedTemperature) * this.weights.temperature;
+        
+        // Tambahkan faktor kerentanan daerah
+        riskScore *= (1 + vulnerability * 0.3);
+
+        // Batasi riskScore antara 0-1
+        riskScore = Math.min(1, Math.max(0, riskScore));
+
+        // Tentukan status berdasarkan threshold
+        let status = 'Aman';
+        let confidence = 0;
+
+        if (riskScore >= this.thresholds.Awas) {
+            status = 'Awas';
+            confidence = riskScore;
+        } else if (riskScore >= this.thresholds.Siaga) {
+            status = 'Siaga';
+            confidence = riskScore;
+        } else if (riskScore >= this.thresholds.Waspada) {
+            status = 'Waspada';
+            confidence = riskScore;
+        } else {
+            status = 'Aman';
+            confidence = 1 - riskScore;
+        }
+
+        return {
+            status: status,
+            confidence: Math.min(0.99, Math.max(0.6, confidence)),
+            riskScore: riskScore,
+            district: district,
+            vulnerability: vulnerability
+        };
+    }
+
+  }
