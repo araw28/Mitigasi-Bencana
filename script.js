@@ -270,33 +270,18 @@ function createMonthlyDisasterChart() {
     }
   });
 
-  const months = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "Mei",
-    "Jun",
-    "Jul",
-    "Ags",
-    "Sep",
-    "Okt",
-    "Nov",
-    "Des",
-  ];
+  const months = ["Jan","Feb","Mar","Apr","Mei","Jun","Jul","Ags","Sep","Okt","Nov","Des",];
 
   const ctx = document.getElementById("monthlyDisasterChart").getContext("2d");
   new Chart(ctx, {
     type: "bar",
     data: {
       labels: months,
-      datasets: [
-        {
-          label: "Jumlah Bencana",
+      datasets: [{
+          label: "Jumlah Kejadian Banjir",
           data: monthlyCounts,
           backgroundColor: "rgba(231, 76, 60, 0.7)",
-        },
-      ],
+        }]
     },
     options: {
       responsive: true,
@@ -305,11 +290,11 @@ function createMonthlyDisasterChart() {
         y: {
           beginAtZero: true,
           ticks: {
-            stepSize: 1,
-          },
-        },
-      },
-    },
+            stepSize: 1
+          }
+        }
+      }
+    }
   });
 }
 
