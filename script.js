@@ -1,5 +1,5 @@
 // Dataset CSV
-const csvData = `Tanggal,Kecamatan,Curah_Hujan_mm,Kelembapan_persen,Kecepatan_Angin_km_jam,Suhu_Rata2_C,Tinggi_Muka_Air_m,Indeks_Risiko,Status_Banjir
+const csvData = `Tanggal,Kecamatan,Curah_Hujan_mm,Kelembapan_persen,Kecepatan_Angin_km_jam,Suhu_Rata2_C,Tinggi_Muka_Air_m,Indeks_Risiko,Status_Bencana
 2022-04-15,Palu Barat,45,85,4.5,24.2,0.9,1.8,Waspada
 2022-06-18,Mantikulore,75,87,3.8,24.0,1.5,3.0,Siaga
 2022-06-18,Ulujadi,70,87,3.8,24.0,1.4,2.8,Siaga
