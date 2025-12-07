@@ -1,5 +1,5 @@
 // Dataset CSV
-const csvData = `Tanggal,Kecamatan,Curah_Hujan_mm,Kelembapan_persen,Kecepatan_Angin_km_jam,Suhu_Rata2_C,Tinggi_Muka_Air_m,Indeks_Risiko,Status_Bencana
+const csvData = `Tanggal,Kecamatan,Curah_Hujan_mm,Kelembapan_persen,Kecepatan_Angin_km_jam,Suhu_Rata2_C,Tinggi_Muka_Air_m,Indeks_Risiko,Status_Banjir
 2022-04-15,Palu Barat,45,85,4.5,24.2,0.9,1.8,Waspada
 2022-06-18,Mantikulore,75,87,3.8,24.0,1.5,3.0,Siaga
 2022-06-18,Ulujadi,70,87,3.8,24.0,1.4,2.8,Siaga
@@ -286,7 +286,7 @@ function createDistrictChart() {
 function createMonthlyDisasterChart() {
   const monthlyCounts = Array(12).fill(0);
   disasterData.forEach((row) => {
-    if (row.Status_Bencana !== "Aman") {
+    if (row.Status_Banjir !== "Aman") {
       monthlyCounts[row.Bulan - 1]++;
     }
   });
@@ -519,13 +519,7 @@ class FloodPredictionModel {
             confidence = 1 - riskScore;
         }
 
-        return {
-            status: status,
-            confidence: Math.min(0.99, Math.max(0.6, confidence)),
-            riskScore: riskScore,
-            district: district,
-            vulnerability: vulnerability
-        };
+        return { status, confidence, riskScore, vulnerability };
     }
 
     // Metode untuk mendapatkan rekomendasi berdasarkan status dan daerah
@@ -614,12 +608,16 @@ function performPrediction() {
         recommendationText.textContent = predictionModel.getRecommendation(result.status, district);
         
         // Tambahkan progress bar untuk confidence
-        if (!document.querySelector('.confidence-bar')) {
-            const confidenceBar = document.createElement('div');
-            confidenceBar.className = 'confidence-bar';
-            confidenceBar.innerHTML = `<div class="confidence-fill confidence-${result.status.toLowerCase()}" style="width: ${confidencePercent}%"></div>`;
-            confidenceText.parentNode.insertBefore(confidenceBar, confidenceText.nextSibling);
-        }
+        let oldBar = document.querySelector('.confidence-bar');
+        if (oldBar) oldBar.remove();
+        
+        const confidenceBar = document.createElement('div');
+        confidenceBar.className = 'confidence-bar';
+        confidenceBar.innerHTML = `
+            <div class="confidence-fill confidence-${result.status.toLowerCase()}"
+                style="width: ${confidencePercent}%">
+            </div>`;
+        confidenceText.parentNode.insertBefore(confidenceBar, confidenceText.nextSibling);
         
     }, 1500);
 }
