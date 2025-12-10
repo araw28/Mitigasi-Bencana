@@ -44,15 +44,15 @@ let disasterData = [];
 let predictionModel = null;
 
 // Koordinat kecamatan di Kota Palu
-const districtCoordinates = {
-    'Palu Barat': { lat: -0.8965, lng: 119.8617 },
-    'Palu Selatan': { lat: -0.9186, lng: 119.8722 },
-    'Palu Timur': { lat: -0.8908, lng: 119.8875 },
-    'Palu Utara': { lat: -0.8708, lng: 119.8722 },
-    'Tatanga': { lat: -0.9083, lng: 119.8500 },
-    'Ulujadi': { lat: -0.8833, lng: 119.8500 },
-    'Mantikulore': { lat: -0.9000, lng: 119.8333 },
-    'Tawaeli': { lat: -0.8500, lng: 119.9000 }
+const kecamatanPalu = {
+  "Palu Barat": { lat: -0.8878594133564031, lng: 119.85260749116584 },
+  "Palu Selatan": { lat: -0.9189, lng: 119.8945 },
+  "Palu Timur": { lat: -0.8876, lng: 119.8626 },
+  "Palu Utara": { lat: -0.7845, lng: 119.8772 },
+  "Tatanga": { lat: -0.9199, lng: 119.8460 },
+  "Ulujadi": { lat: -0.8607, lng: 119.8280 },
+  "Mantikulore": { lat: -0.8718, lng: 119.8880 },
+  "Tawaeli": { lat: -0.7327, lng: 119.8971 }
 };
 
 // Parse CSV data
