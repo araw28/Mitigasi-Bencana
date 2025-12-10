@@ -396,34 +396,37 @@ function createAccuracyChart() {
 
 // Initialize map dengan marker kecamatan
 function initializeMap() {
-    const map = L.map('disasterMap').setView([-0.9018, 119.8776], 11);
-    
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
-    
-    // Add markers for flood events dengan koordinat kecamatan
-    disasterData.filter(row => row.Status_Banjir !== 'Aman').forEach(row => {
-        const district = row.Kecamatan;
-        const coords = districtCoordinates[district];
-        
-        if (coords) {
-            // Tambahkan sedikit variasi pada koordinat untuk menghindari overlap
-            const lat = coords.lat + (Math.random() - 0.5) * 0.01;
-            const lng = coords.lng + (Math.random() - 0.5) * 0.01;
-            
-            let color;
-            if (row.Status_Banjir === 'Awas') color = 'red';
-            else if (row.Status_Banjir === 'Siaga') color = 'orange';
-            else if (row.Status_Banjir === 'Waspada') color = 'yellow';
-            else color = 'gray';
-            
-            L.circleMarker([lat, lng], {
-                color: color,
-                fillColor: color,
-                fillOpacity: 0.7,
-                radius: 8
-            }).addTo(map).bindPopup(`
+  const map = L.map("disasterMap").setView([-0.9018, 119.8776], 11);
+
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution:
+      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  }).addTo(map);
+
+  // Add markers for flood events dengan koordinat kecamatan
+  disasterData
+    .filter((row) => row.Status_Banjir !== "Aman")
+    .forEach((row) => {
+      const district = row.Kecamatan;
+      const coords = kecamatanPalu[district]; // <-- diganti dari districtCoordinates
+
+      if (coords) {
+        // Tambahkan sedikit variasi pada koordinat untuk menghindari overlap
+        const lat = coords.lat + (Math.random() - 0.5) * 0.01;
+        const lng = coords.lng + (Math.random() - 0.5) * 0.01;
+
+        let color;
+        if (row.Status_Banjir === "Awas") color = "red";
+        else if (row.Status_Banjir === "Siaga") color = "orange";
+        else if (row.Status_Banjir === "Waspada") color = "yellow";
+        else color = "gray";
+
+        L.circleMarker([lat, lng], {
+          color: color,
+          fillColor: color,
+          fillOpacity: 0.7,
+          radius: 8,
+        }).addTo(map).bindPopup(`
                 <div style="text-align: center;">
                     <b>${district}</b><br>
                     <b>${row.Tanggal}</b><br>
@@ -433,16 +436,15 @@ function initializeMap() {
                     Indeks Risiko: ${row.Indeks_Risiko}
                 </div>
             `);
-        }
+      }
     });
-    
-    // Tambahkan marker untuk setiap kecamatan
-    Object.entries(districtCoordinates).forEach(([district, coords]) => {
-        L.marker([coords.lat, coords.lng])
-            .addTo(map)
-            .bindPopup(`<b>${district}</b><br>Kecamatan Kota Palu`)
-            .openPopup();
-    });
+
+  // Tambahkan marker untuk setiap kecamatan
+  Object.entries(kecamatanPalu).forEach(([district, coords]) => { // <-- diganti dari districtCoordinates
+    L.marker([coords.lat, coords.lng])
+      .addTo(map)
+      .bindPopup(`<b>${district}</b><br>Kecamatan Kota Palu`);
+  });
 }
 
 // Machine Learning Model untuk Prediksi
